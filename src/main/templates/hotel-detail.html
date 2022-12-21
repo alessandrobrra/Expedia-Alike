@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Detail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/footer.css">
+    <link rel="stylesheet" type="text/css" href="./styles/hotel-detail.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+</head>
+<body onload="addToMapInfo($hotel.getHotelLat(),$hotel.getHotelLon());addWeather($hotel.getHotelLat(),$hotel.getHotelLon());getRestaurants($hotel.getHotelLat(),$hotel.getHotelLon());">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="welcome">Bay Area Travel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                #if($username == "Stranger")
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="login">Login</a>
+                </li>
+                #else
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="user-profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="hotel-search">Hotel Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="logout">Logout</a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="hotel-detail">
+    #if($edit-review-error)
+    <div class="alert alert-danger" role="alert">
+        You cannot edit the review you have not written.
+    </div>
+    #end
+    #if($username != "Stranger")
+    <a class="btn btn-primary" href="/add-review?hotelId=$hotel.getId()"
+       role="button" id="add-review-button">Add Review</a>
+    #end
+    <a href="$hotel.expediaString()" id="expedia-link"
+       onclick="$.post('/hotel-detail?hotelId=$hotel.getId()&isVisited=true&expedia=$hotel.expediaString()&hotelName=$hotel.getHotelName()')"
+       class="btn btn-success">Expedia Link</a>
+    <h2 class="text-center align-middle m-2">$hotel.getHotelName() $hotel.getId()</h2>
+    <h2 class="text-center align-middle m-2">Hotel Address: $hotel.getHotelAddress()</h2>
+    <h2 class="text-center align-middle m-2">Rating: $rating</h2>
+    <h2 class="text-center align-middle m-2" id="weather"></h2>
+    <div id="mapAndFood">
+        <div id="map"></div>
+        <p id="restaurants"></p>
+    </div>
+    <ul id="paginated-list" aria-live="polite">
+        #foreach($review in $reviews)
+        <li>
+            <div class="card m-3">
+                <div class="card-body">
+                    <h5 class="card-title">$review.getReviewTitle()</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Rating: $review.getRating()</h6>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">By $review.getReviewUsername() on
+                            $review.getDate()</h6>
+                    </div>
+                    <p class="card-text">$review.getReviewText()</p>
+                    #if($review.getReviewUsername() == $username)
+                    <a class="btn btn-primary pull-right justify-content-md-end"
+                       href="/edit-review?hotelId=$hotel.getId()&reviewId=$review.getReviewId()"
+                       role="button">Edit Review</a>
+                    <a class="btn btn-danger pull-right justify-content-md-end"
+                       href="/delete-review?hotelId=$hotel.getId()&reviewId=$review.getReviewId()"
+                       role="button">Delete Review</a>
+                    #end
+                </div>
+            </div>
+        </li>
+        #end
+    </ul>
+
+    <nav class="pagination-container">
+        <div id="pagination-numbers">
+        </div>
+    </nav>
+</div>
+
+<footer class="footer mt-auto py-3 bg-dark">
+    <span class="text-muted">By: Alessandro Barrera</span>
+</footer>
+
+</body>
+</html>
+<script src="./javascript/pagination.js" defer></script>
+<script src="./javascript/map.js"></script>
+<script src="./javascript/weather.js"></script>
+<script src="./javascript/nearbyRestaurants.js"></script>

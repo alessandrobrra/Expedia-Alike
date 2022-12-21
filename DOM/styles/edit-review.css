@@ -1,0 +1,16 @@
+/*make footer stay at the bottom of the content*/
+#editReview {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 2.5rem;
+}
+
+/*make footer stay at the bottom of the page after editReview div*/
+.footer {
+    position: static;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+

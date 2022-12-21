@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/footer.css">
+    <link rel="stylesheet" type="text/css" href="./styles/user-profile.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="welcome">Bay Area Travel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                #if($username == "Stranger")
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="login">Login</a>
+                </li>
+                #else
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="user-profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="hotel-search">Hotel Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="logout">Logout</a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" id="content">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">User Profile</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">Welcome, ${username}!</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center">Your Expedia Links
+                <a class="btn btn-danger"
+                   href="/clear-links?username=${username}"
+                   role="button">Clear Links</a>
+            </h3>
+
+        </div>
+    </div>
+    <div class="row" id="table-of-links">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Hotel Name</th>
+                    <th scope="col">Hotel Link</th>
+                </tr>
+                </thead>
+                <tbody>
+                #foreach($link in $links)
+                <tr>
+                    <td>${link.getHotelName()}</td>
+                    <td><a href="${link.getExpediaLink()}">${link.getExpediaLink()}</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-auto py-3 bg-dark">
+    <span class="text-muted">By: Alessandro Barrera</span>
+</footer>
+</body>
+
+
+</html>

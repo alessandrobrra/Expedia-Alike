@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Review</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/footer.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="welcome">Bay Area Travel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                #if($username == "Stranger")
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="login">Login</a>
+                </li>
+                #else
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="user-profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="hotel-search">Hotel Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="logout">Logout</a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div name="addReview">
+    <h1 class="text-center align-middle m-2">Add Review</h1>
+    <form action="add-review" method="post" name="addReview">
+        <div class="form-floating m-2">
+            <input type="text" class="form-control" id="reviewTitle" placeholder="Great Place" name="reviewTitle"
+                   required>
+            <label for="reviewTitle">Title</label>
+        </div>
+        <div class="form-floating m-2">
+            <input type="text" class="form-control" id="hotelId" placeholder="Hotel Id" value="$hotelId" name="hotelId"
+                   readonly="readonly">
+            <label for="hotelId">Hotel ID</label>
+        </div>
+        <div class="form-floating m-2">
+            <select class="form-select" id="reviewScore" aria-label="Floating label select example" name="reviewRating"
+                    required>
+                <option value="" hidden>Overall Rating</option>
+                <option value="1">One Star</option>
+                <option value="2">Two Stars</option>
+                <option value="3">Three Stars</option>
+                <option value="4">Four Stars</option>
+                <option value="5">Five Stars</option>
+            </select>
+            <label for="reviewScore">Overall Rating</label>
+        </div>
+        <div class="form-floating m-2">
+        <textarea class="form-control" placeholder="Leave a comment here" id="reviewText"
+                  style="height: 100px" name="reviewText" required></textarea>
+            <label for="reviewText">Review</label>
+        </div>
+        <button type="submit" class="btn btn-primary m-2">Submit
+        </button>
+    </form>
+</div>
+
+<footer class="footer mt-auto py-3 bg-dark">
+    <span class="text-muted">By: Alessandro Barrera</span>
+</footer>
+
+</body>
+</html>
